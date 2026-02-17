@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Menu - Shri Ram Restaurant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<div class="navbar">
+  <div class="logo">🍽️ Shri Ram Restaurant</div>
+  <div class="nav-links">
+    <a href="cart.html">🛒 Cart</a>
+    <a href="orders.html">📦 Orders</a>
+    <a href="#" onclick="logout()">🚪 Logout</a>
+  </div>
+</div>
+
+<!-- ===== HERO SECTION ===== -->
+<div class="menu-hero">
+  <div class="hero-content">
+    <h1>Delicious Food, Delivered Fresh 🍕</h1>
+    <p>Experience premium taste crafted with love</p>
+  </div>
+</div>
+
+<!-- ===== MENU SECTION ===== -->
+<section class="menu-section">
+  <h2 class="section-title">Our Special Menu</h2>
+  <div id="foods" class="food-grid"></div>
+</section>
+
+<script src="./js/script.js"></script>
+<script>
+checkLogin();
+loadFoods();
+</script>
+
+</body>
+</html>
