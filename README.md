@@ -40,6 +40,8 @@ restaurant-management/
     ├── orders.html
     └── admin.html
 
+database password is 12345
+
 🗄 STEP 1: DATABASE SETUP Run on workbench
 
 CREATE DATABASE restaurant_db;

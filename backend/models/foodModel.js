@@ -1,15 +1,15 @@
 const db = require("../config/db");
 
 exports.addFood = (foodData, callback) => {
-  const { name, price, image } = foodData;
+  const { name, price, category } = foodData;
 
   db.query(
-    "INSERT INTO foods (name, price, image) VALUES (?, ?, ?)",
-    [name, price, image],
+    "INSERT INTO foods (name, price, category) VALUES (?, ?, ?)",
+    [name, price, category],
     callback
   );
 };
 
 exports.getAllFoods = (callback) => {
-  db.query("SELECT * FROM foods ORDER BY created_at DESC", callback);
+  db.query("SELECT * FROM foods", callback);
 };

@@ -1,41 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <title>Orders - Shri Ram Restaurant</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./css/style.css">
-</head>
+  <head>
+    <title>Orders - Shri Ram Restaurant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
 
-<body>
+  <body>
+    <!-- ===== NAVBAR ===== -->
+    <div class="navbar">
+      <div class="logo">🍽️ Shri Ram Restaurant</div>
+      <div class="nav-links">
+        <a href="index.html">🏠 Home</a>
+        <a href="menu.html">📋 Menu</a>
+        <a href="cart.html">🛒 Cart</a>
+        <a href="orders.html">📦 Orders</a>
+        <a href="#" onclick="logout()">🚪 Logout</a>
+      </div>
+    </div>
 
-<!-- ===== NAVBAR ===== -->
-<div class="navbar">
-  <div class="logo">🍽️ Shri Ram Restaurant</div>
-  <div class="nav-links">
-    <a href="menu.html">🍴 Menu</a>
-    <a href="#" onclick="logout()">🚪 Logout</a>
-  </div>
-</div>
+    <!-- ===== HERO SECTION ===== -->
+    <div class="orders-hero">
+      <div class="hero-content">
+        <h1>Your Order History 📦</h1>
+        <p>Track your delicious journey with us</p>
+      </div>
+    </div>
 
-<!-- ===== HERO SECTION ===== -->
-<div class="orders-hero">
-  <div class="hero-content">
-    <h1>Your Order History 📦</h1>
-    <p>Track your delicious journey with us</p>
-  </div>
-</div>
+    <!-- ===== ORDERS SECTION ===== -->
+    <section class="orders-section">
+      <h2 class="section-title">My Orders</h2>
+      <div id="ordersList" class="food-grid"></div>
+    </section>
 
-<!-- ===== ORDERS SECTION ===== -->
-<section class="orders-section">
-  <h2 class="section-title">My Orders</h2>
-  <div id="ordersList" class="food-grid"></div>
-</section>
-
-<script src="./js/script.js"></script>
-<script>
-checkLogin();
-loadOrders();
-</script>
-
-</body>
+    <script src="./js/script.js"></script>
+    <script>
+      checkLogin();
+      loadOrders();
+    </script>
+  </body>
 </html>

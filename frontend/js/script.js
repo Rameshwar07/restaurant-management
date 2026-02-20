@@ -89,36 +89,44 @@ function login() {
 }
 
 /*ADD FOOD*/
-
 function addFood() {
   const user = JSON.parse(localStorage.getItem("user"));
 
-  if (!user || user.role !== "admin") {
+  if (!user || user.role.toLowerCase() !== "admin") {
     alert("Access Denied");
     return;
   }
 
   const name = document.getElementById("foodName").value;
   const price = document.getElementById("foodPrice").value;
-  const image = document.getElementById("foodImage").value;
+  const category = document.getElementById("foodCategory").value;
+
+  if (!name || !price || !category) {
+    alert("Please fill all fields");
+    return;
+  }
 
   fetch("http://localhost:5000/api/foods/add", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ name, price, image })
+    body: JSON.stringify({ name, price, category })
   })
     .then(res => res.json())
     .then(data => {
       document.getElementById("message").innerText = data.message;
+
+      // Clear fields after adding
+      document.getElementById("foodName").value = "";
+      document.getElementById("foodPrice").value = "";
+      document.getElementById("foodCategory").value = "";
     })
     .catch(err => {
       console.error(err);
       alert("Error adding food");
     });
 }
-
 
 /* DELETE USER */
 function deleteUser(id) {
@@ -187,46 +195,36 @@ function searchUsers() {
 
 /* LOAD FOODS */
 function loadFoods() {
-
-  fetch(API + "/foods")
+  fetch("http://localhost:5000/api/foods")
     .then(res => res.json())
     .then(data => {
-
-      const foodsContainer = document.getElementById("foods");
-      foodsContainer.innerHTML = "";
+      const foodsDiv = document.getElementById("foods");
+      foodsDiv.innerHTML = "";
 
       data.forEach(food => {
 
-        foodsContainer.innerHTML += `
-          <div class="food-card fade-in">
-            
-            <div class="img-wrapper">
-              <img 
-                src="${food.image || 'https://source.unsplash.com/400x300/?food'}" 
-                alt="${food.name}" 
-                class="food-img"
-                onerror="this.src='https://source.unsplash.com/400x300/?restaurant'"
-              >
-            </div>
+        // 👇 Auto image from images folder
+        const imageName = food.name.trim().toLowerCase();
+        const imagePath = `frontend/images/${imageName}.jpg`;
 
-            <div class="food-content">
-              <h3>${food.name}</h3>
-              <p class="price">₹${food.price}</p>
-              <button onclick="addToCart(${food.id})">
-                🛒 Add to Cart
-              </button>
-            </div>
-
-          </div>
-        `;
+        console.log(imagePath);
+        foodsDiv.innerHTML += `
+  <div class="food-card">
+    <img src="${imagePath}" 
+     onerror="this.src='frontend/images/default.jpg'"
+     alt="${food.name}">
+    <h3>${food.name}</h3>
+    <p>₹${food.price}</p>
+    <p>${food.category.toUpperCase()}</p>
+    <button onclick="addToCart(${food.id}, '${food.name}', ${food.price})">
+      Add to Cart
+    </button>
+  </div>
+`;
       });
-
     })
-    .catch(err => {
-      console.error("Error loading foods:", err);
-    });
+    .catch(err => console.log(err));
 }
-
 
 /* ADD TO CART */
 function addToCart(food_id) {

@@ -4,10 +4,12 @@
     <title>Admin Dashboard - Shri Ram Restaurant</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/admin.css" />
   </head>
 
   <body>
+    <div class="background-overlay"></div>
+
     <div class="admin-container">
       <!-- ===== SIDEBAR ===== -->
       <div class="sidebar">
@@ -20,40 +22,45 @@
 
       <!-- ===== MAIN CONTENT ===== -->
       <div class="admin-content">
-        <canvas id="revenueChart"></canvas>
-
         <!-- DASHBOARD -->
         <div id="dashboardSection">
           <h2>Dashboard Overview</h2>
 
           <div class="stats-grid">
-            <div class="stat-card">
+            <div class="stat-card" onclick="loadUsers()">
               <h3 id="totalUsers">0</h3>
               <p>Total Users</p>
             </div>
 
-           
-
-            <div class="stat-card">
+            <div class="stat-card" onclick="loadAdminOrders()">
               <h3 id="totalOrders">0</h3>
               <p>Total Orders</p>
             </div>
 
-            <div class="stat-card">
+            <div class="stat-card" onclick="loadAdminOrders()">
               <h3 id="totalRevenue">₹0</h3>
               <p>Total Revenue</p>
             </div>
           </div>
-        </div>
 
-         <h2>Add Food</h2>
+          <canvas id="revenueChart"></canvas>
 
+          <!-- ADD FOOD (ONLY DASHBOARD) -->
+          <div class="add-food-box">
+            <h2>Add Food</h2>
             <input type="text" id="foodName" placeholder="Food Name" />
             <input type="number" id="foodPrice" placeholder="Price" />
-            <input type="text" id="foodImage" placeholder="Image URL" />
+            <select id="foodCategory">
+              <option value="">Select Category</option>
+              <option value="veg">Veg</option>
+              <option value="nonveg">Non-Veg</option>
+              <option value="starter">Starter</option>
+              <option value="coldrink">Cold Drinks</option>
+            </select>
             <button onclick="addFood()">Add Food</button>
-
             <p id="message"></p>
+          </div>
+        </div>
 
         <!-- USERS -->
         <div id="usersSection" style="display: none">
@@ -64,22 +71,16 @@
             id="searchUser"
             placeholder="Search by name or email..."
             onkeyup="searchUsers()"
-            style="
-              padding: 10px;
-              width: 300px;
-              margin-bottom: 20px;
-              border-radius: 6px;
-              border: 1px solid #ccc;
-            "
+            class="search-input"
           />
 
-          <div id="usersList" class="food-grid"></div>
+          <div id="usersList" class="card-grid"></div>
         </div>
 
         <!-- ORDERS -->
         <div id="ordersSection" style="display: none">
           <h2>📦 Orders Management</h2>
-          <div id="adminOrders" class="food-grid"></div>
+          <div id="adminOrders" class="card-grid"></div>
         </div>
       </div>
     </div>
@@ -87,10 +88,6 @@
     <script src="./js/script.js"></script>
 
     <script>
-      /* ===========================
-   ADMIN ACCESS CHECK
-=========================== */
-
       document.addEventListener("DOMContentLoaded", function () {
         const userData = localStorage.getItem("user");
 
@@ -111,10 +108,6 @@
         showDashboard();
       });
 
-      /* ===========================
-   SECTION SWITCHING
-=========================== */
-
       function showDashboard() {
         document.getElementById("dashboardSection").style.display = "block";
         document.getElementById("usersSection").style.display = "none";
@@ -131,7 +124,6 @@
           .then((data) => {
             window.allUsers = data;
             displayUsers(data);
-
             document.getElementById("totalUsers").innerText = data.length;
           });
       }
@@ -154,22 +146,18 @@
               revenue += Number(order.total);
 
               ordersDiv.innerHTML += `
-        <div class="food-card">
-          <h3>Order ID: ${order.id}</h3>
-          <p>User ID: ${order.user_id}</p>
-          <p>Total: ₹${order.total}</p>
-          <p>Status: ${order.status}</p>
-        </div>
-      `;
+                <div class="data-card">
+                  <h3>Order ID: ${order.id}</h3>
+                  <p>User ID: ${order.user_id}</p>
+                  <p>Total: ₹${order.total}</p>
+                  <p>Status: ${order.status}</p>
+                </div>
+              `;
             });
 
             document.getElementById("totalRevenue").innerText = "₹" + revenue;
           });
       }
-
-      /* ===========================
-   DISPLAY USERS
-=========================== */
 
       function displayUsers(users) {
         const usersDiv = document.getElementById("usersList");
@@ -177,18 +165,14 @@
 
         users.forEach((u) => {
           usersDiv.innerHTML += `
-      <div class="food-card">
-        <h3>${u.name}</h3>
-        <p>Email: ${u.email}</p>
-        <p>Role: ${u.role}</p>
-      </div>
-    `;
+            <div class="data-card">
+              <h3>${u.name}</h3>
+              <p>Email: ${u.email}</p>
+              <p>Role: ${u.role}</p>
+            </div>
+          `;
         });
       }
-
-      /* ===========================
-   SEARCH USERS
-=========================== */
 
       function searchUsers() {
         const keyword = document
@@ -203,10 +187,6 @@
 
         displayUsers(filtered);
       }
-
-      /* ===========================
-   LOGOUT
-=========================== */
 
       function logout() {
         localStorage.removeItem("user");
