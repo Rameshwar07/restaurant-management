@@ -535,3 +535,51 @@ body {
   font-size: 28px;
   color: #ff6b6b;
 }
+
+.hero {
+  position: relative;
+  height: 100vh; /* Make hero full screen */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.hero-overlay {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4); /* if you want dark overlay */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-content h1, 
+.hero-content p {
+  color: #fff;
+  margin: 0.5rem 0;
+}
+
+/* Features (keep them above button if needed) */
+.features {
+  display: flex;
+  gap: 1rem;
+  color: #fff;
+  margin-top: 1rem;
+}
+
+/* Button at bottom center */
+.hero-btn {
+  position: absolute;
+  bottom: 100px; /* distance from bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 25px;
+  background-color: #FFD700; /* yellow */
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 25px;
+}
